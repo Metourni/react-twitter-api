@@ -4,6 +4,7 @@ import users from './users/reducers'
 import menu from './menu/reducers'
 import settings from './settings/reducers'
 import timer from './timer/reducers'
+import tweets from './tweets/reducers'
 
 export default history =>
   combineReducers({
@@ -12,4 +13,5 @@ export default history =>
     menu,
     settings,
     timer,
+    tweets,
   })

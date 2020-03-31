@@ -1,17 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-// import {Select, Button} from 'antd';
-
-// import {connect} from 'react-redux'
-// import {Scrollbars} from 'react-custom-scrollbars'
-
 
 const Tweet = (props) => {
 
   const {tweet} = props
 
-  console.log('tweet', tweet)
   return (
     <div className="card">
       <div className="card-body">
