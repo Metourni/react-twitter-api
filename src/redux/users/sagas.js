@@ -56,6 +56,7 @@ export function* SEARCH({payload}) {
       payload: {
         users,
         loading: false,
+        error: ""
       }
     })
   } else {
