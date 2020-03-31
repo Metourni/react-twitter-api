@@ -1,18 +1,31 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import { Select ,Radio} from 'antd';
+import {Select, Button} from 'antd';
+import { Scrollbars } from 'react-custom-scrollbars'
+
 
 const mapStateToProps = ({users}) => ({users})
 
 @connect(mapStateToProps)
 class RightSection extends React.Component {
+  state ={
+    period:"1",
+    typeLikedRetweeted: 'liked'
+  }
 
-  handleFilterValueChange =() =>{
+  handleFilterValueChange =(key,value) =>{
+    console.log(key,value)
+    this.setState({
+      [key]:value
+    })
 
+    // run search
   }
 
   render() {
     const {users:{current}}= this.props
+    const {period,typeLikedRetweeted}= this.state;
+
     return (
       <div className="air__layout__grayBackground border-left py-4 px-4 h-100">
         <div>
@@ -43,34 +56,36 @@ class RightSection extends React.Component {
             </div>
           </div>
 
-          <div className="mb-3">
-            <Select defaultValue="1" style={{ width: 180 }} onChange={this.handleFilterValueChange}>
+          <div className="mb-3 text-center">
+            <Select defaultValue={period} style={{ width: 180 }} onChange={e=>this.handleFilterValueChange("period",e)}>
               <Select.Option value="1">1 day</Select.Option>
               <Select.Option value="7">7 days</Select.Option>
               <Select.Option value="30">30 days</Select.Option>
             </Select>
-            <Radio.Group onChange={this.handleFilterValueChange} defaultValue="a">
-              <Radio.Button value="liked" shape="circle" icon={<i className="fe fe-heart" />} size="large" />
-              <Radio.Button value="retweeted" shape="circle" icon={<i className="fe fe-circle" />} size="large" />
-            </Radio.Group>
+            <div className="d-inline-flex ml-3">
+              <Button
+                value="liked"
+                shape="circle"
+                icon="heart"
+                type={typeLikedRetweeted==="liked"?"primary":"default"}
+                onClick={()=>this.handleFilterValueChange("typeLikedRetweeted","liked")}
+              />
+              <Button
+                className="ml-2"
+                value="retweeted"
+                shape="circle"
+                icon="retweet"
+                type={typeLikedRetweeted==="retweeted"?"primary":"default"}
+                onClick={()=>this.handleFilterValueChange("typeLikedRetweeted","retweeted")}
+              />
+            </div>
           </div>
-          <div className="table-responsive">
-            <table className="table table-borderless">
-              <tbody>
-                <tr>
-                  <td className="text-gray-6 pl-0">Location</td>
-                  <td className="pr-0 text-right text-dark">New York</td>
-                </tr>
-                <tr>
-                  <td className="text-gray-6 pl-0">Phone</td>
-                  <td className="pr-0 text-right text-dark">+1 800 367 4784</td>
-                </tr>
-                <tr>
-                  <td className="text-gray-6 pl-0">Email</td>
-                  <td className="pr-0 text-right text-dark">mail@google.com</td>
-                </tr>
-              </tbody>
-            </table>
+          <div className="twits">
+            <Scrollbars
+              autoHide
+              >
+
+            </Scrollbars>
           </div>
         </div>
       </div>
