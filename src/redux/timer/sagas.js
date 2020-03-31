@@ -10,21 +10,18 @@ const getFinalTime = state => state.timer.finalTime
 export function* INCREMENT_TIMER() {
   const time = yield select(getCurrentTime)
   const finalTime = yield select(getFinalTime)
-  // console.log('INCREMENT_TIMER',time,finalTime)
-  if (time + 1 > finalTime) {
-    // todo: clear the store...
-    yield put({type: actions.CLEAR_TIMER})
-  } else {
-    yield put({
-      type: actions.SET_STATE,
-      payload: {
-        time: time + 1
-      }
-    })
-  }
+  console.log('INCREMENT_TIMER', time, finalTime)
+  yield put({
+    type: actions.SET_STATE,
+    payload: {
+      time: time + 1
+    }
+  })
+
 }
 
 export function* CLEAR_TIMER() {
+  // console.log("clear timer");
   yield put({
     type: actions.SET_STATE,
     payload: {

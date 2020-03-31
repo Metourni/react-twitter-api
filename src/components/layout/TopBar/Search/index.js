@@ -1,15 +1,109 @@
 import React from 'react'
-import { injectIntl } from 'react-intl'
-import { Dropdown } from 'antd'
-import { Scrollbars } from 'react-custom-scrollbars'
-import List from './List'
+import {injectIntl} from 'react-intl'
+import {connect} from 'react-redux'
+import {Dropdown} from 'antd'
+import {Scrollbars} from 'react-custom-scrollbars'
+
+import ListUsers from './ListUsers'
 import styles from './style.module.scss'
+import userActions from "../../../../redux/users/actions";
+import timerActions from "../../../../redux/timer/actions";
+
+
+const mapDispatchToProps = dispatch => ({
+  search: query => {
+    dispatch({
+      type: userActions.SEARCH,
+      payload: {
+        query
+      }
+    });
+  },
+  setCurrentUser: user => {
+    dispatch({
+      type: userActions.SELECT_USER,
+      payload: {
+        id: user.id
+      }
+    });
+  },
+  setUser: data => {
+    dispatch({
+      type: userActions.SET_STATE,
+      payload: data
+    });
+  },
+  incrementTimer: ()=>{
+    dispatch({
+      type:timerActions.INCREMENT_TIMER
+    })
+  },
+  clearTimer:()=>{
+    dispatch({
+      type:timerActions.CLEAR_TIMER
+    })
+  }
+})
 
 @injectIntl
+@connect(
+  ({users}) => ({users}),
+  mapDispatchToProps
+)
 class Search extends React.Component {
+
+  interval;
+
+  handleSearch = e => {
+    const {value} = e.target
+    const {search} =this.props;
+    if (value && value.length>2){
+      search(value)
+    }
+  }
+
+  onSelectUser = user => {
+    const {setCurrentUser} =this.props;
+    if (user){
+      setCurrentUser(user)
+      this.resetTimer()
+      this.setTimer()
+    }
+  }
+
+  setTimer = ()=>{
+    const {incrementTimer} =this.props
+    this.interval = setInterval(
+      ()=>{
+        incrementTimer()
+      },
+      1000
+    )
+    // clear the timer when finishing
+    setTimeout(()=>{
+      this.resetTimer();
+      this.clearCurrentUser();
+    },1000 * 60)
+  }
+
+  resetTimer = ()=>{
+    const {clearTimer} =this.props
+    clearTimer()
+    clearInterval(this.interval);
+  }
+
+  clearCurrentUser = ()=>{
+    const {setUser} =this.props
+    setUser({
+      current:null
+    });
+  }
+
+
   render() {
     const {
-      intl: { formatMessage },
+      intl: {formatMessage},
+      users
     } = this.props
     const menu = (
       <React.Fragment>
@@ -17,7 +111,7 @@ class Search extends React.Component {
           <div className="card-body p-1 height-350">
             <Scrollbars
               autoHide
-              renderThumbVertical={({ ...props }) => (
+              renderThumbVertical={({...props}) => (
                 <div
                   {...props}
                   style={{
@@ -30,7 +124,7 @@ class Search extends React.Component {
               )}
             >
               <div className="pt-4 px-4 pb-2">
-                <List />
+                <ListUsers users={users} onItemSelect={this.onSelectUser} />
               </div>
             </Scrollbars>
           </div>
@@ -44,7 +138,8 @@ class Search extends React.Component {
           <input
             className={styles.searchInput}
             type="text"
-            placeholder={formatMessage({ id: 'topBar.search' })}
+            placeholder={formatMessage({id: 'topBar.search'})}
+            onChange={this.handleSearch}
           />
         </div>
       </Dropdown>

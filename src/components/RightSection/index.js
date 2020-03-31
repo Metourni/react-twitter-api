@@ -48,7 +48,7 @@ class RightSection extends React.Component {
                     current && current.avatar?
                       <img src={current.avatar} alt={current.fullName} />
                       :
-                      <img src="resources/images/avatars/1.jpg" alt="User" />
+                      <img src="resources/images/avatars/avatar.png" alt="User" />
                   }
 
                 </div>
@@ -56,7 +56,7 @@ class RightSection extends React.Component {
                   <div className="text-dark font-size-18 font-weight-bold text-nowrap">
                     {current && current.fullName}
                     {
-                      current.verified ?
+                      current && current.verified ?
                         <i className="align-text-bottom fe fe-check-square text-success ml-2 font-size-24 " />
                         :
                         null
