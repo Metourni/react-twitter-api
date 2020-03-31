@@ -82,6 +82,7 @@ class RightSection extends React.Component {
             </div>
           </div>
           <div className="twits">
+            <div className="h4">Top 2 <span className="text-capitalize">{typeLikedRetweeted}</span> tweets</div>
             <Scrollbars style={{ height: 200 }} autoHide>
               {
                 current && current.topTweets && current.topTweets.length>0?
