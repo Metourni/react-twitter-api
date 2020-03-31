@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {Select, Button} from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars'
+import Tweet from "../Tweet";
 
 
 const mapStateToProps = ({users}) => ({users})
@@ -81,10 +82,17 @@ class RightSection extends React.Component {
             </div>
           </div>
           <div className="twits">
-            <Scrollbars
-              autoHide
-              >
-
+            <Scrollbars style={{ height: 200 }} autoHide>
+              {
+                current && current.topTweets && current.topTweets.length>0?
+                  (
+                    current.topTweets.map(tweet=>
+                      <Tweet key={tweet.id} tweet={tweet} />
+                    )
+                  )
+                    :
+                  null
+              }
             </Scrollbars>
           </div>
         </div>
