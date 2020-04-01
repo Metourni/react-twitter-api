@@ -3,13 +3,14 @@ import moment from "moment";
 
 import tweetsService from '../../services/tweets';
 import actions from './actions'
+import ArrayHelper, {compareArrayOfObject} from '../../helper/array'
 
 const getCurrentUser = state => state.users.current;
 
 const getNewTweets = state => state.tweets.newTweets;
 
 export function* GET_TOP_TWEETS({payload}) {
-  const {period, liredRetweeted} = payload
+  const {period, typeLikedRetweeted} = payload
 
   const currentUser = yield select(getCurrentUser)
 
@@ -47,13 +48,19 @@ export function* GET_TOP_TWEETS({payload}) {
     response.data.length > 0
   ) {
 
-    const topTweets = response.data.map(tweet => ({
+    // reformat array
+    let topTweets = response.data.map(tweet => ({
       id: tweet.id,
       text: tweet.text,
       retweetCount: tweet.retweet_count,
       favoriteCount: tweet.favorite_count,
       createdAt: tweet.created_at,
     }))
+
+    // order array
+    const key = typeLikedRetweeted === "retweeted" ? "retweetCount" : "favoriteCount";
+    topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key))
+
     yield put({
       type: actions.SET_STATE,
       payload: {
@@ -140,7 +147,7 @@ export function* LOAD_MORE_TWEETS() {
   yield put({
     type: actions.GET_NEW_TWEETS,
     payload: {
-      count:getNewTweets.length+1
+      count: getNewTweets.length + 1
     },
   })
 }

@@ -5,10 +5,22 @@ import { Scrollbars } from 'react-custom-scrollbars'
 
 import style from './style.module.scss';
 import Tweet from '../Tweet';
+import tweetsActions from "../../redux/tweets/actions";
 
 const mapStateToProps = ({users,tweets}) => ({users,tweets})
+const mapDispatchToProps = dispatch =>({
+  getTopTweets:(period,typeLikedRetweeted)=>{
+    dispatch({
+      type:tweetsActions.GET_TOP_TWEETS,
+      payload:{
+        period,
+        typeLikedRetweeted
+      }
+    })
+  }
+})
 
-@connect(mapStateToProps)
+@connect(mapStateToProps,mapDispatchToProps)
 class RightSection extends React.Component {
 
   // Todo: move it to store
@@ -18,12 +30,14 @@ class RightSection extends React.Component {
   }
 
   handleFilterValueChange =(key,value) =>{
+    const {getTopTweets} = this.props
     console.log(key,value)
     this.setState({
       [key]:value
+    },()=>{
+      const {period,typeLikedRetweeted} = this.state;
+      getTopTweets(period,typeLikedRetweeted)
     })
-
-    // run search
   }
 
   render() {
