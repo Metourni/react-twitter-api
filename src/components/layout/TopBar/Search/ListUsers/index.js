@@ -85,6 +85,6 @@ export default ListUsers
 
 
 ListUsers.propTypes = {
-  users: PropTypes.array.isRequired,
+  users: PropTypes.object.isRequired,
   onItemSelect: PropTypes.func.isRequired,
 }

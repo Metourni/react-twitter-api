@@ -24,7 +24,7 @@ class LeftSection extends React.Component{
         errorLoadingNewTweets,
       }
     } = this.props;
-    console.log('current',current)
+    // console.log('current',current)
 
     return (
       <div>
@@ -61,7 +61,7 @@ class LeftSection extends React.Component{
             current && !loadingNewTweets && newTweets && newTweets.length>0?
               (
                 newTweets.map(tweet=>
-                  <div className="col-md-6">
+                  <div key={tweet.id} className="col-md-6">
                     <Tweet key={tweet.id} tweet={tweet} />
                   </div>
                 )

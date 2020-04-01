@@ -1,9 +1,10 @@
 import {all, takeEvery, put, call, select} from 'redux-saga/effects'
 import moment from "moment";
+import HttpStatus from 'http-status-codes'
 
 import tweetsService from '../../services/tweets';
 import actions from './actions'
-import ArrayHelper, {compareArrayOfObject} from '../../helper/array'
+import ArrayHelper from '../../helper/array'
 
 const getCurrentUser = state => state.users.current;
 
@@ -59,7 +60,10 @@ export function* GET_TOP_TWEETS({payload}) {
 
     // order array
     const key = typeLikedRetweeted === "retweeted" ? "retweetCount" : "favoriteCount";
-    topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key))
+    topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key,'desc'))
+
+    // slice only two element
+    topTweets = topTweets.slice(0, 2)
 
     yield put({
       type: actions.SET_STATE,
@@ -143,11 +147,59 @@ export function* GET_NEW_TWEETS({payload}) {
 }
 
 export function* LOAD_MORE_TWEETS() {
-  const getNewTweets = yield select(getNewTweets)
+  const newTweets = yield select(getNewTweets)
   yield put({
     type: actions.GET_NEW_TWEETS,
     payload: {
-      count: getNewTweets.length + 1
+      count: newTweets.length + 1
+    },
+  })
+}
+
+export function* ORDER_TOP_TWEETS({payload}) {
+  const {typeLikedRetweeted} = payload
+  const currentUser = yield select(getCurrentUser)
+
+  // start loading..
+  yield put({
+    type: actions.SET_STATE,
+    payload: {
+      loadingTopTweets: true,
+    },
+  })
+
+  // If there is no selected user return empty array.
+  if (!currentUser) {
+    // start loading..
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loadingTopTweets: false,
+        errorLoadingTopTweets: false,
+        topTweets: []
+      },
+    });
+    return;
+  }
+
+  // reformat array
+  let topTweets = yield select(getNewTweets)
+  console.log("ORDER_TOP_TWEETS top",topTweets)
+
+  // order array
+  const key = typeLikedRetweeted === "retweeted" ? "retweetCount" : "favoriteCount";
+  topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key,'desc'))
+  console.log("ORDER_TOP_TWEETS order",topTweets)
+
+  // slice only two element
+  topTweets = topTweets.slice(0, 2)
+
+  yield put({
+    type: actions.SET_STATE,
+    payload: {
+      loadingTopTweets: false,
+      topTweets,
+      errorLoadingTopTweets: ""
     },
   })
 }
@@ -158,5 +210,7 @@ export default function* rootSaga() {
     takeEvery(actions.GET_TOP_TWEETS, GET_TOP_TWEETS),
     takeEvery(actions.GET_NEW_TWEETS, GET_NEW_TWEETS),
     takeEvery(actions.LOAD_MORE_TWEETS, LOAD_MORE_TWEETS),
+    // todo: remove
+    takeEvery(actions.ORDER_TOP_TWEETS, ORDER_TOP_TWEETS),
   ])
 }

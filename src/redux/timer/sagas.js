@@ -5,12 +5,12 @@ const getCurrentTime = state => {
   // console.log('state',state);
   return state.timer.time
 }
-const getFinalTime = state => state.timer.finalTime
+// const getFinalTime = state => state.timer.finalTime
 
 export function* INCREMENT_TIMER() {
   const time = yield select(getCurrentTime)
-  const finalTime = yield select(getFinalTime)
-  console.log('INCREMENT_TIMER', time, finalTime)
+  // const finalTime = yield select(getFinalTime)
+  // console.log('INCREMENT_TIMER', time, finalTime)
   yield put({
     type: actions.SET_STATE,
     payload: {

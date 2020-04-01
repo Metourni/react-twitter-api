@@ -11,7 +11,7 @@ const mapStateToProps = ({users,tweets}) => ({users,tweets})
 const mapDispatchToProps = dispatch =>({
   getTopTweets:(period,typeLikedRetweeted)=>{
     dispatch({
-      type:tweetsActions.GET_TOP_TWEETS,
+      type:tweetsActions.ORDER_TOP_TWEETS,
       payload:{
         period,
         typeLikedRetweeted
@@ -31,7 +31,7 @@ class RightSection extends React.Component {
 
   handleFilterValueChange =(key,value) =>{
     const {getTopTweets} = this.props
-    console.log(key,value)
+    // console.log(key,value)
     this.setState({
       [key]:value
     },()=>{
