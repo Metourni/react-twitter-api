@@ -6,7 +6,6 @@ import * as TwitterConfig from '../config/twitter'
 // Add a request interceptor
 axios.interceptors.request.use(
   async config => {
-
     config.headers["Client-ID"] =TwitterConfig.CLIENT_ID
     return config
   },

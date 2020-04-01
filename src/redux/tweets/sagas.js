@@ -109,8 +109,9 @@ export function* GET_NEW_TWEETS({payload}) {
     });
     return;
   }
-
+  console.log("response before")
   const response = yield call(tweetsService.getUserTweets, currentUser.id, count)
+  console.log("response",response)
   if (
     response &&
     response.status &&
@@ -119,6 +120,7 @@ export function* GET_NEW_TWEETS({payload}) {
     response.data.length > 0
   ) {
 
+    // Format array
     const newTweets = response.data.map(tweet => ({
       id: tweet.id,
       text: tweet.text,
@@ -126,6 +128,10 @@ export function* GET_NEW_TWEETS({payload}) {
       favoriteCount: tweet.favorite_count,
       createdAt: tweet.created_at,
     }))
+
+    // order array
+    newTweets.sort(ArrayHelper.compareArrayOfObject('createdAt','desc'))
+
     yield put({
       type: actions.SET_STATE,
       payload: {
@@ -160,14 +166,6 @@ export function* ORDER_TOP_TWEETS({payload}) {
   const {typeLikedRetweeted} = payload
   const currentUser = yield select(getCurrentUser)
 
-  // start loading..
-  yield put({
-    type: actions.SET_STATE,
-    payload: {
-      loadingTopTweets: true,
-    },
-  })
-
   // If there is no selected user return empty array.
   if (!currentUser) {
     // start loading..
@@ -184,12 +182,10 @@ export function* ORDER_TOP_TWEETS({payload}) {
 
   // reformat array
   let topTweets = yield select(getNewTweets)
-  console.log("ORDER_TOP_TWEETS top",topTweets)
 
   // order array
   const key = typeLikedRetweeted === "retweeted" ? "retweetCount" : "favoriteCount";
   topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key,'desc'))
-  console.log("ORDER_TOP_TWEETS order",topTweets)
 
   // slice only two element
   topTweets = topTweets.slice(0, 2)
@@ -199,7 +195,7 @@ export function* ORDER_TOP_TWEETS({payload}) {
     payload: {
       loadingTopTweets: false,
       topTweets,
-      errorLoadingTopTweets: ""
+      errorLoadingTopTweets: "a"
     },
   })
 }

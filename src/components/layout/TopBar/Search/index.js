@@ -8,6 +8,7 @@ import ListUsers from './ListUsers'
 import styles from './style.module.scss'
 import userActions from "../../../../redux/users/actions";
 import timerActions from "../../../../redux/timer/actions";
+import tweetActions from "../../../../redux/tweets/actions";
 
 
 const mapDispatchToProps = dispatch => ({
@@ -42,6 +43,16 @@ const mapDispatchToProps = dispatch => ({
     dispatch({
       type:timerActions.CLEAR_TIMER
     })
+  },
+  getCurrentUserTopTweets: ()=>{
+    dispatch({
+      type:tweetActions.GET_TOP_TWEETS
+    })
+  },
+  getCurrentUserNewTweets: ()=>{
+    dispatch({
+      type:tweetActions.GET_TOP_TWEETS
+    })
   }
 })
 
@@ -63,9 +74,16 @@ class Search extends React.Component {
   }
 
   onSelectUser = user => {
-    const {setCurrentUser} =this.props;
+    const {
+      setCurrentUser,
+      // getCurrentUserTopTweets,
+      // getCurrentUserNewTweets
+    } =this.props;
     if (user){
-      setCurrentUser(user)
+      setCurrentUser(user);
+      // call those function when the api is ready
+      // getCurrentUserTopTweets();
+      // getCurrentUserNewTweets();
       this.resetTimer()
       this.setTimer()
     }

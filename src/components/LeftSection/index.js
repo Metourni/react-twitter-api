@@ -1,19 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import {Button,Skeleton,Alert} from "antd";
+
 import Tweet from "../Tweet";
+import tweetsActions from "../../redux/tweets/actions";
 
 const mapStateToProps = ({users,tweets}) =>({users,tweets})
 const mapDispatchToProps = dispatch =>({
   loadMoreTweets : ()=>{
     dispatch({
-      type:''
+      type:tweetsActions.LOAD_MORE_TWEETS
     })
   }
 })
 
 @connect(mapStateToProps,mapDispatchToProps)
 class LeftSection extends React.Component{
+
+  handleLoadMoreClick = ()=>{
+    const {loadMoreTweets} = this.props
+    loadMoreTweets();
+  }
 
   render() {
     const {
@@ -30,7 +37,7 @@ class LeftSection extends React.Component{
       <div>
         <div className="row mb-5">
           <div className="col-md-6">
-            <Button type="primary" block>
+            <Button type="primary" block onClick={this.handleLoadMoreClick} disabled={!current}>
               Load more tweets
             </Button>
           </div>
