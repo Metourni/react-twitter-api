@@ -5,24 +5,22 @@ import {Badge} from 'antd'
 
 import style from './style.module.scss'
 
+const Timer = (props) => {
+  const {
+    timer: {time},
+  } = props
 
-@connect(({timer})=>({timer}))
-class Timer extends React.Component {
-  render() {
-    const {
-      timer: {time},
-    } = this.props
-
-    return (
-      <div>
-        <Badge count={time}>
-          <div>
-            <i className={classNames('fe fe-clock',style.clockIcon)} />
-          </div>
-        </Badge>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Badge count={time}>
+        <div>
+          <i className={classNames('fe fe-clock', style.clockIcon)} />
+        </div>
+      </Badge>
+    </div>
+  )
 }
 
-export default Timer
+const mapStateToProps = ({timer}) => ({timer});
+
+export default connect(mapStateToProps)(Timer)
