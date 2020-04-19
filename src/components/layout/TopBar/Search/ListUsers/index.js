@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from "prop-types";
 import {Skeleton} from "antd";
+import Highlighter from 'react-highlight-words'
 
 import style from './style.module.scss'
 
 const ListUsers = (props) => {
-  const {users, onItemSelect} = props
+  const {users, onItemSelect,searchString} = props
 
   const renderUser = user => {
     return (
@@ -27,7 +28,14 @@ const ListUsers = (props) => {
 
         </div>
         <div>
-          <div className="text-blue">{user.fullName}</div>
+          <div className="text-blue">
+            <Highlighter
+              highlightClassName="text-white bg-warning"
+              searchWords={[...searchString.split(" ")]}
+              // autoEscape={true}
+              textToHighlight={user.fullName}
+            />
+          </div>
         </div>
       </a>
     )
@@ -87,4 +95,8 @@ export default ListUsers
 ListUsers.propTypes = {
   users: PropTypes.object.isRequired,
   onItemSelect: PropTypes.func.isRequired,
+  searchString:PropTypes.string,
+}
+ListUsers.defaultProps = {
+  searchString:"",
 }
