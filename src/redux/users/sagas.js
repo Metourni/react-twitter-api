@@ -26,6 +26,7 @@ export function* SEARCH({payload}) {
     type: actions.SET_STATE,
     payload: {
       loading: true,
+      searchString:query
     },
   })
 
@@ -78,6 +79,7 @@ export function* SELECT_USER({payload}) {
       type: actions.SET_STATE,
       payload: {
         current: user,
+        searchString:""
       }
     })
   }else{
@@ -97,6 +99,7 @@ export function* CLEAR() {
         loading:false,
         error:"",
         current: {},
+        searchString:"",
         list:[]
       }
     })

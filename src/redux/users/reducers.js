@@ -21,6 +21,7 @@ const initialState = {
   ],
   current:null,
   loading: false,
+  searchString:"",
   error:"Makach data",
 }
 

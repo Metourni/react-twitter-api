@@ -65,7 +65,8 @@
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.1.1",
-    "store": "^2.0.12"
+    "store": "^2.0.12",
+    "twit": "^2.2.11"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.6.0",

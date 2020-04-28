@@ -64,16 +64,12 @@ const mapDispatchToProps = dispatch => ({
 class Search extends React.Component {
   interval;
 
-  state= {
-    searchValue:""
-  }
-
   handleSearch = e => {
     const {value} = e.target
     const {search} =this.props;
     if (value && value.length>2){
       search(value)
-      this.setState({searchValue:value})
+      // this.setState({searchValue:value})
     }
   }
 
@@ -128,8 +124,6 @@ class Search extends React.Component {
       users
     } = this.props
 
-    const {searchValue} = this.state;
-
     const menu = (
       <React.Fragment>
         <div className="card air__utils__shadow width-330">
@@ -149,7 +143,7 @@ class Search extends React.Component {
               )}
             >
               <div className="pt-4 px-4 pb-2">
-                <ListUsers users={users} onItemSelect={this.onSelectUser} searchString={searchValue} />
+                <ListUsers users={users} onItemSelect={this.onSelectUser} searchString={users.searchString} />
               </div>
             </Scrollbars>
           </div>
