@@ -3,6 +3,7 @@
 module.exports = {
   twitter:{
     api:{
+      baseUrl:"https://api.twitter.com/1.1",
       // LCqrdRENSgRMwuTt45WlNjj1s:U5VU3QavQy9gixnp1j3fpQxSw8LXeJnyWkcv6ug5SgPDGTDz8i
       // base64: TENxcmRSRU5TZ1JNd3VUdDQ1V2xOamoxczpVNVZVM1FhdlF5OWdpeG5wMWozZnBReFN3OExYZUpueVdrY3Y2dWc1U2dQREdURHo4aQ==
       key:"LCqrdRENSgRMwuTt45WlNjj1s",

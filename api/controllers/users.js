@@ -34,7 +34,7 @@ const search = async (req, res) => {
   const params = {
     cursor:-1,
     screen_name:'elonmusk',
-    count: 20
+    count: 10
   };
   // ?cursor=-1&screen_name=MetourniN&count=5
   const result = await UsersService.getUserFollowers(params)

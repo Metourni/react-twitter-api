@@ -5,4 +5,4 @@ const tweetsController = require('../controllers/tweets');
 const router = express.Router();
 
 module.exports = router.
-  get('/', tweetsController.getTweets)
+  get('/timeline/user/:id', tweetsController.getUserTimelineTweets)

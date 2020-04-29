@@ -18,6 +18,7 @@ const initialState = {
     }
   ],
   newTweets: [
+    /*
     {
       createdAt: "Wed Oct 10 20:19:24 +0000 2018",
       id: 105011862119892178,
@@ -39,6 +40,7 @@ const initialState = {
       retweetCount: 30,
       favoriteCount: 20,
     }
+     */
   ],
   loadingTopTweets: false,
   loadingNewTweets: false,

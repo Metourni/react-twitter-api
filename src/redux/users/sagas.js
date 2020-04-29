@@ -2,6 +2,7 @@ import {all, takeEvery, put, call,select} from 'redux-saga/effects'
 import HttpStatus from 'http-status-codes'
 import usersService from 'services/users'
 import actions from './actions'
+import tweetsActions from '../tweets/actions'
 
 // select user from store.
 const getUserById = (state, id) => {
@@ -67,6 +68,7 @@ export function* SEARCH({payload}) {
     yield put({
       type: actions.SET_STATE,
       payload: {
+        list:[],
         loading: false,
         error: "Can't load users data"
       },
@@ -124,6 +126,14 @@ export function* SELECT_USER({payload}) {
       payload: {
         current: user,
         searchString:""
+      }
+    })
+
+    // Get user tweets.
+    yield put({
+      type: tweetsActions.GET_USER_TWEETS,
+      payload: {
+       id:user.id
       }
     })
   }else{

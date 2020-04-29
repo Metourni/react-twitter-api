@@ -60,7 +60,7 @@ export function* GET_TOP_TWEETS({payload}) {
 
     // order array
     const key = typeLikedRetweeted === "retweeted" ? "retweetCount" : "favoriteCount";
-    topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key,'desc'))
+    topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key, 'desc'))
 
     // slice only two element
     topTweets = topTweets.slice(0, 2)
@@ -111,7 +111,7 @@ export function* GET_NEW_TWEETS({payload}) {
   }
   console.log("response before")
   const response = yield call(tweetsService.getUserTweets, currentUser.id, count)
-  console.log("response",response)
+  console.log("response", response)
   if (
     response &&
     response.status &&
@@ -130,7 +130,7 @@ export function* GET_NEW_TWEETS({payload}) {
     }))
 
     // order array
-    newTweets.sort(ArrayHelper.compareArrayOfObject('createdAt','desc'))
+    newTweets.sort(ArrayHelper.compareArrayOfObject('createdAt', 'desc'))
 
     yield put({
       type: actions.SET_STATE,
@@ -151,6 +151,60 @@ export function* GET_NEW_TWEETS({payload}) {
     })
   }
 }
+
+export function* GET_USER_TWEETS({payload}) {
+  const {id} = payload
+  // start loading..
+  yield put({
+    type: actions.SET_STATE,
+    payload: {
+      loadingNewTweets: true,
+    },
+  })
+
+  const response = yield call(tweetsService.getUserTweets, id)
+  console.log("response", response)
+  if (
+    response &&
+    response.status &&
+    response.status === HttpStatus.OK &&
+    response.data &&
+    response.data.tweets &&
+    response.data.tweets.length > 0
+  ) {
+    const {tweets} = response.data;
+    // Format array
+    const newTweets = tweets.map(tweet => ({
+      id: tweet.id,
+      text: tweet.text,
+      retweetCount: tweet.retweet_count,
+      favoriteCount: tweet.favorite_count,
+      createdAt: tweet.created_at,
+    }))
+
+    // order array
+    newTweets.sort(ArrayHelper.compareArrayOfObject('createdAt', 'desc'))
+
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loadingNewTweets: false,
+        newTweets,
+        errorLoadingNewTweets: ""
+      },
+    })
+  } else {
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loadingNewTweets: false,
+        newTweets: [],
+        errorLoadingNewTweets: "Can't Loading New Tweets"
+      },
+    })
+  }
+}
+
 
 export function* LOAD_MORE_TWEETS() {
   const newTweets = yield select(getNewTweets)
@@ -185,7 +239,7 @@ export function* ORDER_TOP_TWEETS({payload}) {
 
   // order array
   const key = typeLikedRetweeted === "retweeted" ? "retweetCount" : "favoriteCount";
-  topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key,'desc'))
+  topTweets = topTweets.sort(ArrayHelper.compareArrayOfObject(key, 'desc'))
 
   // slice only two element
   topTweets = topTweets.slice(0, 2)
@@ -206,6 +260,7 @@ export default function* rootSaga() {
     takeEvery(actions.GET_TOP_TWEETS, GET_TOP_TWEETS),
     takeEvery(actions.GET_NEW_TWEETS, GET_NEW_TWEETS),
     takeEvery(actions.LOAD_MORE_TWEETS, LOAD_MORE_TWEETS),
+    takeEvery(actions.GET_USER_TWEETS, GET_USER_TWEETS),
     // todo: remove
     takeEvery(actions.ORDER_TOP_TWEETS, ORDER_TOP_TWEETS),
   ])
