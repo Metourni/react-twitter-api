@@ -12,10 +12,22 @@ const getUsers = async (params) => {
     })
 }
 
-const show = async (id) => {
-  return await TwitterApi.get('users/search', params)
+const getUserFollowers = async (params) => {
+  return await TwitterApi.get('followers/list', params)
     .then(result => {
-      console.log('result: ', result);
+      // console.log('result: ', result);
+      return result
+    })
+    .catch(error => {
+      console.log('Error getting Users: ', error);
+      return null;
+    })
+}
+
+const show = async (params) => {
+  return await TwitterApi.get('users/show', params)
+    .then(result => {
+      // console.log('result: ', result);
       return result
     })
     .catch(error => {
@@ -25,5 +37,7 @@ const show = async (id) => {
 }
 
 module.exports = {
-  getUsers
+  getUsers,
+  getUserFollowers,
+  show
 }

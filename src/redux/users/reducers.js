@@ -2,9 +2,9 @@ import actions from './actions'
 
 const initialState = {
   list:[
-    {
+    /* {
       id:6253282,
-      fullName:"Metourni Noureddine",
+      fullNa  me:"Metourni Noureddine",
       verified:false,
       avatar:"resources/images/avatars/5.jpg",
       followedCount:12,
@@ -18,11 +18,12 @@ const initialState = {
       followedCount:12,
       followersCount:24
     },
+     */
   ],
   current:null,
   loading: false,
   searchString:"",
-  error:"Makach data",
+  error:"No data",
 }
 
 export default function userReducer(state = initialState, action) {

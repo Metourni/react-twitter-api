@@ -44,6 +44,19 @@ const mapDispatchToProps = dispatch => ({
       type:timerActions.CLEAR_TIMER
     })
   },
+  clearSearchInput:()=>{
+    dispatch({
+      type: userActions.SET_STATE,
+      payload: {searchString:""}
+    });
+  },
+  clearSearchUsersList:()=>{
+    dispatch({
+      type: userActions.SET_STATE,
+      payload: {list:[]}
+    });
+  },
+
   getCurrentUserTopTweets: ()=>{
     dispatch({
       type:tweetActions.GET_TOP_TWEETS
@@ -64,10 +77,16 @@ const mapDispatchToProps = dispatch => ({
 class Search extends React.Component {
   interval;
 
+  constructor(props) {
+    super(props);
+    this.searchInputRef = React.createRef()
+  }
+
+
   handleSearch = e => {
     const {value} = e.target
     const {search} =this.props;
-    if (value && value.length>2){
+    if (value && value.length>=2){
       search(value)
       // this.setState({searchValue:value})
     }
@@ -99,8 +118,12 @@ class Search extends React.Component {
     )
     // clear the timer when finishing
     setTimeout(()=>{
+      // We clear the timer, the current selected user, search input and search user list result.
       this.resetTimer();
       this.clearCurrentUser();
+      this.clearSearchInput();
+      this.clearUsersList();
+      // todo: clear tweets.
     },1000 * 60)
   }
 
@@ -115,6 +138,18 @@ class Search extends React.Component {
     setUser({
       current:null
     });
+  }
+
+  clearSearchInput= ()=>{
+    const {clearSearchInput} =this.props
+    clearSearchInput()
+    if (this.searchInputRef && this.searchInputRef.current)
+      this.searchInputRef.current.value = "";
+  }
+
+  clearUsersList = ()=>{
+    const {clearSearchUsersList}= this.props;
+    clearSearchUsersList();
   }
 
 
@@ -155,6 +190,7 @@ class Search extends React.Component {
         <div className={styles.searchContainer}>
           <i className={`${styles.searchIcon} fe fe-search`} />
           <input
+            ref={this.searchInputRef}
             className={styles.searchInput}
             type="text"
             placeholder={formatMessage({id: 'topBar.search'})}

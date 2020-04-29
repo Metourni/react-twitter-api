@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 
+const cors = require('cors');
 const logger = require('morgan');
 const compression  = require('compression');
 const helmet  = require('helmet');
@@ -13,12 +14,17 @@ const port = process.env.PORT || 5431
 const app = express()
 
 if (process.env.NODE_ENV === 'development') {
+  console.log("Environment ==> 'development'");
+
   // logger
   app.use(logger('dev'));
+
+  // cors.
+  app.use(cors())
 }
 
 if (process.env.NODE_ENV  === 'production') {
-  console.log("config.app.env ==> 'production'");
+  console.log("Environment ==> 'production'");
 
   app.use(logger('tiny'));
   // Returns the compression middleware

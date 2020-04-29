@@ -1,5 +1,7 @@
-import * as Twitter from './twitter'
 
+// Todo: get this info from .env file
 export default {
-  Twitter
+  api:{
+    baseUrl:"http://localhost:5431/api/v1"
+  }
 }

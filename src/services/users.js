@@ -1,18 +1,27 @@
 import API from './api'
+import Config from '../config'
+// import SearchConstants from '../constants/search'
 
-import * as TwitterConfig from '../config/twitter'
+const searchUsers= async (query) =>{
+  return API.get(`${Config.api.baseUrl}/users/search/${query}`)
+    .then(data=>data)
+    .catch(error=>{
+      console.log("error",error)
+      return null
+    })
+}
 
-
-const searchUsers= async (query,count=TwitterConfig.DEFAULT_SEARCH_COUNT) =>{
-  return API.get(`${TwitterConfig.API_BASE_URL}/users/search.json?q=${query}&count=${count}`)
-    .catch(data=>data)
-    .then(error=>{
+const showUser= async (id) =>{
+  return API.get(`${Config.api.baseUrl}/users/show/${id}`)
+    .then(data=>data)
+    .catch(error=>{
       console.log("error",error)
       return null
     })
 }
 
 export default {
-  searchUsers
+  searchUsers,
+  showUser
 }
 

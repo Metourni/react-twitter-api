@@ -1,6 +1,8 @@
-import axios from 'axios'
-import HttpStatus from 'http-status-codes'
+// todo: Add the necessary herders later
 
+import axios from 'axios'
+// import HttpStatus from 'http-status-codes'
+/*
 import * as TwitterConfig from '../config/twitter'
 
 // Add a request interceptor
@@ -28,5 +30,5 @@ axios.interceptors.response.use(
     return Promise.reject(error)
   },
 )
-
+*/
 export default axios

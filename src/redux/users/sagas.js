@@ -31,16 +31,19 @@ export function* SEARCH({payload}) {
   })
 
   const response = yield call(usersService.searchUsers, query)
+  console.log("SEARCH: ",response,response.data.users.length)
   if (
     response &&
     response.status &&
     response.status === HttpStatus.OK &&
     response.data &&
-    response.data.length > 0
+    response.data.users &&
+    response.data.users.length > 0
   ) {
 
+    console.log('users: ',response.data.users)
     // Change the format of the response and put it u-in users array.
-    const users = response.data.map(user =>
+    const users = response.data.users.map(user =>
       (
         {
           id: user.id,
@@ -55,7 +58,7 @@ export function* SEARCH({payload}) {
     yield put({
       type: actions.SET_STATE,
       payload: {
-        users,
+        list:users,
         loading: false,
         error: ""
       }
@@ -71,6 +74,47 @@ export function* SEARCH({payload}) {
   }
 }
 
+// show user by id (fetch from server)
+export function* SHOW({payload}) {
+  const {id} = payload
+  // start loading..
+  yield put({
+    type: actions.SET_STATE,
+    payload: {
+      loading: true
+    },
+  })
+  const response = yield call(usersService.showUser, id)
+  if (
+    response &&
+    response.status &&
+    response.status === HttpStatus.OK &&
+    response.data &&
+    response.data.user
+  ) {
+
+    // Change the format of the response and put it u-in users array.
+    const {user} = response.data;
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        current:user,
+        loading: false,
+        error: ""
+      }
+    })
+  } else {
+    yield put({
+      type: actions.SET_STATE,
+      payload: {
+        loading: false,
+        error: "Can't load users data"
+      },
+    })
+  }
+}
+
+// select user from the list of users (from local list).
 export function* SELECT_USER({payload}) {
   const {id} = payload
   const user =yield select(getUserById,id)
@@ -108,6 +152,7 @@ export function* CLEAR() {
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.SEARCH, SEARCH),
+    takeEvery(actions.SHOW, SHOW),
     takeEvery(actions.SELECT_USER, SELECT_USER),
     takeEvery(actions.CLEAR, CLEAR),
   ])
