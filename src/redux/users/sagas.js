@@ -48,6 +48,7 @@ export function* SEARCH({payload}) {
       (
         {
           id: user.id,
+          idStr: user.id_str,
           fullName: user.name,
           verified: user.verified,
           avatar: user.profile_image_url_https,
@@ -133,7 +134,7 @@ export function* SELECT_USER({payload}) {
     yield put({
       type: tweetsActions.GET_USER_TWEETS,
       payload: {
-       id:user.id
+       id:user.idStr
       }
     })
   }else{

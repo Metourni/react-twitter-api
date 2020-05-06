@@ -199,7 +199,7 @@ export function* GET_USER_TWEETS({payload}) {
       payload: {
         loadingNewTweets: false,
         newTweets: [],
-        errorLoadingNewTweets: "Can't Loading New Tweets"
+        errorLoadingNewTweets: "No tweet found"
       },
     })
   }

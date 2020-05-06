@@ -13,6 +13,7 @@ const getTweets = async(req, res) => {
 const getUserTimelineTweets = async(req, res) => {
   const {id} = req.params
   console.log('id',id)
+  /*
   const params = {
     q:'@NASA since:2018-07-11',
     // screen_name:'MetourniN',
@@ -24,11 +25,13 @@ const getUserTimelineTweets = async(req, res) => {
     include_entities:false,
     // since_id
   };
+   */
 
   const params_2 ={
     user_id: id,
     exclude_replies:true,
     trim_user:true,
+    count:3
   }
   const result = await TweetsService.getUserTimelineTweetsAxios(params_2)
     .catch(()=>{return null})

@@ -47,7 +47,7 @@ const search = async (req, res) => {
     result.data.users.length>0
   ){
     let followers = result.data.users;
-    let names= followers.map(user=>user.name);
+    // let tweets =
     // console.log("names: ",names);
     // search inside followers
     followers= followers.filter(SearchHelper.searchInsideUser('name',query,false))
