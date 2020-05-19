@@ -10,14 +10,6 @@ const initialState = {
       followedCount:12,
       followersCount:24
     },
-    {
-      id:6253283,
-      fullName:"Mikle jhons",
-      verified:false,
-      avatar:"resources/images/avatars/4.jpg",
-      followedCount:12,
-      followersCount:24
-    },
      */
   ],
   current:null,

@@ -32,7 +32,7 @@ export function* SEARCH({payload}) {
   })
 
   const response = yield call(usersService.searchUsers, query)
-  console.log("SEARCH: ",response,response.data.users.length)
+  // console.log("SEARCH: ",response,response.data.users.length)
   if (
     response &&
     response.status &&
@@ -42,7 +42,7 @@ export function* SEARCH({payload}) {
     response.data.users.length > 0
   ) {
 
-    console.log('users: ',response.data.users)
+    // console.log('users: ',response.data.users)
     // Change the format of the response and put it u-in users array.
     const users = response.data.users.map(user =>
       (
@@ -50,6 +50,7 @@ export function* SEARCH({payload}) {
           id: user.id,
           idStr: user.id_str || user.id,
           fullName: user.name,
+          screenName:user.screen_name,
           verified: user.verified,
           avatar: user.profile_image_url_https,
           followedCount: user.friends_count,

@@ -20,7 +20,7 @@ async function sleep(delay) {
       resolve(true), delay));
 }
 
-async function bearerToken (auth) {
+async function bearerToken(auth) {
   const requestConfig = {
     url: bearerTokenURL,
     auth: {
@@ -147,15 +147,18 @@ function streamConnect(token) {
 
   const rules = [
     // todo: set rule.
-    { 'value': 'dog has:images'},
+    {'value': 'dog has:images'},
   ];
 
   try {
     // Exchange your credentials for a Bearer token
     token = await bearerToken({consumer_key, consumer_secret});
-    console.log("token: ",token)
+    console.log("token: ", token)
   } catch (e) {
-    console.error(`Could not generate a Bearer token. Please check that your credentials are correct and that the Filtered Stream preview is enabled in your Labs dashboard. (${e})`);
+    console.error(`Could not generate a Bearer token.
+    Please check that your credentials are correct and
+    that the Filtered Stream preview is enabled in your
+     Labs dashboard. (${e})`);
     process.exit(-1);
   }
 
@@ -163,7 +166,7 @@ function streamConnect(token) {
     // Gets the complete list of rules currently applied to the stream
     currentRules = await getAllRules(token);
 
-    console.log("currentRules: ",currentRules);
+    console.log("currentRules: ", currentRules);
 
     // // Delete all rules. Comment this line if you want to keep your existing rules.
     await deleteAllRules(currentRules, token);

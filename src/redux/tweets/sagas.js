@@ -3,7 +3,6 @@ import HttpStatus from 'http-status-codes'
 
 import tweetsService from '../../services/tweets';
 import actions from './actions'
-import ArrayHelper from '../../helper/array'
 
 const getCurrentUser = state => state.users.current;
 
@@ -128,7 +127,7 @@ export function* FETCH_CURRENT_USER_NEW_TWEETS({payload}) {
     count:2,
   } */
   const {params}= payload
-  console.log("params: ",params)
+  // console.log("params: ",params)
 
   // start loading..
   yield put({
@@ -154,7 +153,7 @@ export function* FETCH_CURRENT_USER_NEW_TWEETS({payload}) {
     });
   }else{
     const response = yield call(tweetsService.getUserTweets, {...params,user_id:currentUser.id})
-    console.log("response", response)
+    // console.log("response", response)
     if (
       response &&
       response.status &&
@@ -174,13 +173,11 @@ export function* FETCH_CURRENT_USER_NEW_TWEETS({payload}) {
         favoriteCount: tweet.favorite_count,
         createdAt: tweet.created_at,
       }))
-      console.log("tweets: ", existingNewTweets, fetchedNewTweets)
+      // console.log("tweets: ", existingNewTweets, fetchedNewTweets)
 
       // instance of using sort we can use reverse because it's already sorted from twitter api
       // we just inverse the order
       fetchedNewTweets.reverse()
-      // order array
-      // newTweets.sort(ArrayHelper.compareArrayOfObject('createdAt', 'desc'))
 
       yield put({
         type: actions.SET_STATE,
@@ -205,66 +202,12 @@ export function* FETCH_CURRENT_USER_NEW_TWEETS({payload}) {
 
 // ---- New tweets section ----- //
 
-export function* GET_USER_TWEETS({payload}) {
-  const {id} = payload
-  // start loading..
-  yield put({
-    type: actions.SET_STATE,
-    payload: {
-      loadingNewTweets: true,
-    },
-  })
-
-  const response = yield call(tweetsService.getUserTweets, id)
-  console.log("response", response)
-  if (
-    response &&
-    response.status &&
-    response.status === HttpStatus.OK &&
-    response.data &&
-    response.data.tweets &&
-    response.data.tweets.length > 0
-  ) {
-    const {tweets} = response.data;
-    // Format array
-    const newTweets = tweets.map(tweet => ({
-      id: tweet.id,
-      text: tweet.text,
-      retweetCount: tweet.retweet_count,
-      favoriteCount: tweet.favorite_count,
-      createdAt: tweet.created_at,
-    }))
-
-    // order array
-    newTweets.sort(ArrayHelper.compareArrayOfObject('createdAt', 'desc'))
-
-    yield put({
-      type: actions.SET_STATE,
-      payload: {
-        loadingNewTweets: false,
-        newTweets,
-        errorLoadingNewTweets: ""
-      },
-    })
-  } else {
-    yield put({
-      type: actions.SET_STATE,
-      payload: {
-        loadingNewTweets: false,
-        newTweets: [],
-        errorLoadingNewTweets: "No tweet found"
-      },
-    })
-  }
-}
-
 
 export default function* rootSaga() {
   yield all([
     takeEvery(actions.GET_TOP_TWEETS, GET_TOP_TWEETS),
     takeEvery(actions.GET_NEW_TWEETS, GET_NEW_TWEETS),
     takeEvery(actions.LOAD_MORE_TWEETS, LOAD_MORE_TWEETS),
-    takeEvery(actions.GET_USER_TWEETS, GET_USER_TWEETS),
     takeEvery(actions.FETCH_CURRENT_USER_NEW_TWEETS, FETCH_CURRENT_USER_NEW_TWEETS),
   ])
 }

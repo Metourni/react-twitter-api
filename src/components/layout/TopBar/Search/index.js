@@ -104,8 +104,8 @@ class Search extends React.Component {
       // getCurrentUserTopTweets();
       // getCurrentUserNewTweets();
 
-      // this.resetTimer()
-      // this.setTimer()
+      this.resetTimer()
+      this.setTimer()
     }
   }
 

@@ -76,6 +76,14 @@ class RightSection extends React.Component {
                         null
                     }
                   </div>
+                  <a
+                    className="text-primary"
+                    href={`https://twitter.com/${current && current.screenName}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {current && current.screenName && `@${current.screenName}`}
+                  </a>
                   <div className="text-uppercase">
                     <span className="font-weight-bold">{current && current.followedCount}</span> Following
                   </div>

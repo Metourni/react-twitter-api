@@ -8,26 +8,11 @@ import * as TwitterConfig from '../config/twitter'
 // Add a request interceptor
 axios.interceptors.request.use(
   async config => {
-    config.headers["Client-ID"] =TwitterConfig.CLIENT_ID
+     config.headers.Authorization = `Bearer ${token}`
     return config
   },
   error => {
     Promise.reject(error)
-  },
-)
-
-// Add a response interceptor
-axios.interceptors.response.use(
-  response => {
-    return response
-  },
-  error => {
-    if (error.response.status === HttpStatus.UNAUTHORIZED) {
-
-      console.log('UNAUTHORIZED')
-      return Promise.reject(error)
-    }
-    return Promise.reject(error)
   },
 )
 */
