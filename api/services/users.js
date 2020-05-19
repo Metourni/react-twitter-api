@@ -2,10 +2,7 @@ const TwitterApi = require("./twitterApi");
 
 const searchUsers = async (params) => {
   return await TwitterApi.get('users/search', params)
-    .then(result => {
-      console.log('result: ', result);
-      return result
-    })
+    .then(result => result)
     .catch(error => {
       console.log('Error getting Users: ', error);
       return null;

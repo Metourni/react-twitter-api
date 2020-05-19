@@ -20,10 +20,7 @@ const show = async (req, res) => {
 }
 
 /*
-* Todo: get new access token and do the right request.
-*
-* Because this account doesn't have the necessary permission to search on user
-* I will search only of Barack Obama account because it famous and contains many new post
+* Search for a user.
 * */
 const search = async (req, res) => {
   const {query}= req.params

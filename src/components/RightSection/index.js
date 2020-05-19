@@ -23,7 +23,6 @@ const mapDispatchToProps = dispatch =>({
 @connect(mapStateToProps,mapDispatchToProps)
 class RightSection extends React.Component {
 
-  // Todo: move it to store
   state ={
     period:"1",
     typeLikedRetweeted: 'liked'

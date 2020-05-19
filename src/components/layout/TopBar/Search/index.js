@@ -4,12 +4,12 @@ import {connect} from 'react-redux'
 import {Dropdown} from 'antd'
 import {Scrollbars} from 'react-custom-scrollbars'
 
-import ListUsers from './ListUsers'
-import styles from './style.module.scss'
 import userActions from "../../../../redux/users/actions";
 import timerActions from "../../../../redux/timer/actions";
 import tweetActions from "../../../../redux/tweets/actions";
+import ListUsers from './ListUsers'
 
+import styles from './style.module.scss'
 
 const mapDispatchToProps = dispatch => ({
   search: query => {
@@ -34,11 +34,13 @@ const mapDispatchToProps = dispatch => ({
       payload: data
     });
   },
+
   incrementTimer: ()=>{
     dispatch({
       type:timerActions.INCREMENT_TIMER
     })
   },
+
   clearTimer:()=>{
     dispatch({
       type:timerActions.CLEAR_TIMER
@@ -56,18 +58,27 @@ const mapDispatchToProps = dispatch => ({
       payload: {list:[]}
     });
   },
-
-  getCurrentUserTopTweets: ()=>{
+  clearCurrentUserTopTweets: ()=>{
     dispatch({
-      type:tweetActions.GET_TOP_TWEETS
+      type:tweetActions.SET_STATE,
+      payload:{
+        topTweets:[],
+        loadingTopTweets:false,
+        errorLoadingTopTweets: "",
+      }
     })
   },
-  getCurrentUserNewTweets: ()=>{
+  clearCurrentUserNewTweets: ()=>{
     dispatch({
-      type:tweetActions.GET_TOP_TWEETS
+      type:tweetActions.SET_STATE,
+      payload:{
+        newTweets:[],
+        loadingNewTweets:false,
+        errorLoadingNewTweets: "",
+      }
     })
-  }
-})
+  },
+});
 
 @injectIntl
 @connect(
@@ -82,7 +93,6 @@ class Search extends React.Component {
     this.searchInputRef = React.createRef()
   }
 
-
   handleSearch = e => {
     const {value} = e.target
     const {search} =this.props;
@@ -95,14 +105,10 @@ class Search extends React.Component {
   onSelectUser = user => {
     const {
       setCurrentUser,
-      // getCurrentUserTopTweets,
-      // getCurrentUserNewTweets
     } =this.props;
+
     if (user){
       setCurrentUser(user);
-      // call those function when the api is ready
-      // getCurrentUserTopTweets();
-      // getCurrentUserNewTweets();
 
       this.resetTimer()
       this.setTimer()
@@ -124,7 +130,7 @@ class Search extends React.Component {
       this.clearCurrentUser();
       this.clearSearchInput();
       this.clearUsersList();
-      // todo: clear tweets.
+      this.clearTweets();
     },1000 * 60)
   }
 
@@ -139,6 +145,12 @@ class Search extends React.Component {
     setUser({
       current:null
     });
+  }
+
+  clearTweets = ()=>{
+    const {clearCurrentUserTopTweets,clearCurrentUserNewTweets}=this.props;
+    clearCurrentUserTopTweets();
+    clearCurrentUserNewTweets()
   }
 
   clearSearchInput= ()=>{

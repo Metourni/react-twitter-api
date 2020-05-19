@@ -3,17 +3,6 @@ const moment = require("moment");
 const ArrayHelper = require("../helpers/array");
 const TweetsService = require('../services/tweets');
 
-// Todo: this is a test route tobe deleted.
-const getTweets = async (req, res) => {
-  const params = {
-    // q:'banana since:2011-07-11',
-    screen_name: 'MetourniN',
-    count: 5
-  };
-  const result = await TweetsService.getTweets(params)
-  return res.json({tweets: result})
-}
-
 // Get the user timeline with pagination.
 const getUserTimelinePaginatedTweets = async (req, res) => {
   const {user_id, count, max_id} = req.query;
@@ -124,7 +113,6 @@ const getUserTopTweets = async (req, res) => {
 }
 
 module.exports = {
-  getTweets,
   getUserTimelinePaginatedTweets,
   getUserTopTweets
 }

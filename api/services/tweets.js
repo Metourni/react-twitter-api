@@ -2,19 +2,6 @@ const TwitterApi = require("./twitterApi");
 const ApiAxois = require("./apiAxois");
 const config = require("../config")
 
-
-const getTweets = async (params) => {
-  return await TwitterApi.get('search/tweets', params)
-    .then(result => {
-      console.log('result: ', result);
-      return result
-    })
-    .catch(error => {
-      console.log('error: ', error);
-      return null;
-    })
-}
-
 /*
 * params : eg {screen_name:'MetourniN', count:5 }
 * */
@@ -48,7 +35,6 @@ const getUserTimelineTweetsAxios = async (params) => {
 }
 
 module.exports = {
-  getTweets,
   getUserTimelineTweets,
   getUserTimelineTweetsAxios
 }

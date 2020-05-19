@@ -1,4 +1,4 @@
-// todo: Add the necessary herders later
+// Add the necessary herders later
 
 import axios from 'axios'
 // import HttpStatus from 'http-status-codes'

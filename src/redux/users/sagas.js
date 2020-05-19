@@ -142,7 +142,6 @@ export function* SELECT_USER({payload}) {
 
     // Get user tweets.
     yield put({type: tweetsActions.GET_NEW_TWEETS})
-    // Todo: get the popular tweets.
   }else{
     yield put({
       type: actions.SET_STATE,
