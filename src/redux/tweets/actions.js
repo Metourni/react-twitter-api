@@ -6,8 +6,6 @@ const actions = {
   GET_USER_TWEETS: 'tweets/GET_USER_TWEETS',
 
   FETCH_CURRENT_USER_NEW_TWEETS: 'tweets/FETCH_CURRENT_USER_NEW_TWEETS',
-  // todo: remove
-  ORDER_TOP_TWEETS: 'tweets/ORDER_TOP_TWEETS',
 }
 
 export default actions

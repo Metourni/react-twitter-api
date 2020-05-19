@@ -11,12 +11,11 @@ const getUserTweets= async params =>{
     })
 }
 
-const getUserTopTweets= async (userId,date,count=2) =>{
-  const q = `user_id=${userId}&count=${count}&until=${date}`;
-  return API.get(`${Config.api.baseUrl}/statuses/user_timeline.json?${q}`)
+const getUserTopTweets= async params =>{
+  return API.get(`${Config.api.baseUrl}/tweets/top`,{params})
     .then(data=>data)
     .catch(error=>{
-      console.log("error",error)
+      console.log("error get User Top Tweets",error)
       return null
     })
 }

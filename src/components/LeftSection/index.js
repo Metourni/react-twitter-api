@@ -55,7 +55,7 @@ const LeftSection = (props) => {
           current && !loadingNewTweets && newTweets && newTweets.length > 0 ?
             (
               newTweets.map(tweet =>
-                <div key={tweet.id} className="col-md-6">
+                <div key={`new-tweet_${tweet.id}`} className="col-md-6">
                   <Tweet key={tweet.id} tweet={tweet} />
                 </div>
               )
