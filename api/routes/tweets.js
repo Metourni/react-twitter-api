@@ -6,3 +6,4 @@ const router = express.Router();
 
 module.exports = router
   .get('/timeline', tweetsController.getUserTimelinePaginatedTweets)
+  .get('/top', tweetsController.getUserTopTweets)

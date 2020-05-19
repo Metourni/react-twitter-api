@@ -1,10 +1,9 @@
 const UsersService = require('../services/users')
+
 /*
-*
 * Description: show user information.
 * Params: user_id
 * response: {user:{...}} or 404.
-*
 * */
 const show = async (req, res) => {
   const {id}= req.params;
