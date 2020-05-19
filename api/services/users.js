@@ -1,6 +1,6 @@
 const TwitterApi = require("./twitterApi");
 
-const getUsers = async (params) => {
+const searchUsers = async (params) => {
   return await TwitterApi.get('users/search', params)
     .then(result => {
       console.log('result: ', result);
@@ -37,7 +37,7 @@ const show = async (params) => {
 }
 
 module.exports = {
-  getUsers,
+  searchUsers,
   getUserFollowers,
   show
 }

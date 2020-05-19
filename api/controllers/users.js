@@ -28,29 +28,28 @@ const show = async (req, res) => {
 const search = async (req, res) => {
   const {query}= req.params
   console.log("query: ",query)
-  /*const params = {
-    cursor:-1,
-    screen_name:'elonmusk',
-    count: 10
-  };
-  */
-  // ?cursor=-1&screen_name=MetourniN&count=5
-  // const result = await UsersService.show(params)
 
-  // todo: edit this code.
+  const searchParams = {
+    q: query,
+    count: 5
+  };
+  const result = await UsersService.searchUsers(searchParams)
+  // console.log('results: ',result)
+
+  /*
   const params ={
     screen_name:'BarackObama',
     include_entities:false
   };
-  const result = await UsersService.show(params)
-  // console.log('size: ',result)
+  */
+  // const result = await UsersService.show(params)
   if(
     result &&
-    result.data
-    // && result.data.length>0
+    result.data &&
+    result.data.length>0
   ){
     // followers= followers.filter(SearchHelper.searchInsideUser('name',query,false))
-    return res.json({users: [result.data]})
+    return res.json({users: result.data})
   }else{
     return res.status(404).json("Not found")
   }
