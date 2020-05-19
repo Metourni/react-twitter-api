@@ -11,7 +11,7 @@ const Tweet = (props) => {
       <div className="card-body">
         <div className="d-flex flex-wrap mb-2">
           <div className="mr-auto">
-            <div className="text-gray-5">{moment(tweet.createdAt).fromNow()}</div>
+            <div className="text-gray-5">{moment(tweet.createdAt,"ddd MMM DD HH:mm:ss Z YYYY").format("LT - MMM DD, YYYY")}</div>
           </div>
         </div>
         <div className="mb-3">

@@ -2,11 +2,11 @@ import API from './api'
 
 import Config from '../config'
 
-const getUserTweets= async (userId) =>{
-  return API.get(`${Config.api.baseUrl}/tweets/timeline/user/${userId}`)
+const getUserTweets= async params =>{
+  return API.get(`${Config.api.baseUrl}/tweets/timeline`,{params})
     .then(data=>data)
     .catch(error=>{
-      console.log("error",error)
+      console.log("error getting user timeline",error)
       return null
     })
 }

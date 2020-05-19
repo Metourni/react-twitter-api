@@ -48,7 +48,7 @@ export function* SEARCH({payload}) {
       (
         {
           id: user.id,
-          idStr: user.id_str,
+          idStr: user.id_str || user.id,
           fullName: user.name,
           verified: user.verified,
           avatar: user.profile_image_url_https,
@@ -130,13 +130,18 @@ export function* SELECT_USER({payload}) {
       }
     })
 
-    // Get user tweets.
+    // clear the existing tweets in the store.
     yield put({
-      type: tweetsActions.GET_USER_TWEETS,
+      type: tweetsActions.SET_STATE,
       payload: {
-       id:user.idStr
+        newTweets: [],
+        topTweets: [],
       }
     })
+
+    // Get user tweets.
+    yield put({type: tweetsActions.GET_NEW_TWEETS})
+    // Todo: get the popular tweets.
   }else{
     yield put({
       type: actions.SET_STATE,

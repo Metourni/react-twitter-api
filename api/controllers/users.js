@@ -1,5 +1,4 @@
 const UsersService = require('../services/users')
-const SearchHelper =  require('../helpers/search');
 /*
 *
 * Description: show user information.
@@ -25,33 +24,34 @@ const show = async (req, res) => {
 * Todo: get new access token and do the right request.
 *
 * Because this account doesn't have the necessary permission to search on user
-* I will search in the follower in any famous account
-* In this example I am using Elon Musk account
+* I will search only of Barack Obama account because it famous and contains many new post
 * */
 const search = async (req, res) => {
   const {query}= req.params
   console.log("query: ",query)
-  const params = {
+  /*const params = {
     cursor:-1,
     screen_name:'elonmusk',
     count: 10
   };
+  */
   // ?cursor=-1&screen_name=MetourniN&count=5
-  const result = await UsersService.getUserFollowers(params)
+  // const result = await UsersService.show(params)
 
-  // console.log('size: ',result.data)
+  // todo: edit this code.
+  const params ={
+    screen_name:'BarackObama',
+    include_entities:false
+  };
+  const result = await UsersService.show(params)
+  // console.log('size: ',result)
   if(
     result &&
-    result.data &&
-    result.data.users &&
-    result.data.users.length>0
+    result.data
+    // && result.data.length>0
   ){
-    let followers = result.data.users;
-    // let tweets =
-    // console.log("names: ",names);
-    // search inside followers
-    followers= followers.filter(SearchHelper.searchInsideUser('name',query,false))
-    return res.json({users: followers})
+    // followers= followers.filter(SearchHelper.searchInsideUser('name',query,false))
+    return res.json({users: [result.data]})
   }else{
     return res.status(404).json("Not found")
   }

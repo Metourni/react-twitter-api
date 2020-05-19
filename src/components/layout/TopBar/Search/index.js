@@ -103,8 +103,9 @@ class Search extends React.Component {
       // call those function when the api is ready
       // getCurrentUserTopTweets();
       // getCurrentUserNewTweets();
-      this.resetTimer()
-      this.setTimer()
+
+      // this.resetTimer()
+      // this.setTimer()
     }
   }
 
